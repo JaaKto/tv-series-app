@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from '../../assets/logo.svg'
+import Loader from '../../components/Loader'
 
 class SingleSeries extends Component {
   state = {
@@ -17,24 +17,37 @@ class SingleSeries extends Component {
     const { show } = this.state;
     console.log(show);
 
+    const randomNum = (min, episodes ) => {
+    var n = [];
+    for(let i=0;i<6;i++){
+    n.push(Math.floor(Math.random() * episodes) + min);
+    return n;
+    console.log(n)
+    }
+    }
+
     return (
       <div>
-        { show === null && <logo /> }
+        { show === null && <Loader /> }
         {
           show !== null
           &&
-          <div>
-            <p>{show.name}</p>
-            <p>Premiered - {show.premiered}</p>
-            <p>Rating - {show.rating.average}</p>
-            <p>Episodes - {show._embedded.episodes.length}</p>
-            <p>
-              <img alt='Show' src={show.image.medium} />
-            </p>
+          <div style={{display: 'grid', gridTemplateColumns: 'auto auto auto'}} >
+            <img style={{height: 'calc(100vh - 100px)'}} alt='Show' src={show.image.original} />
+            <div>
+              <h1>{show.name}</h1>
+              <p>Premiered - {show.premiered}</p>
+              <p>Rating - {show.rating.average}</p>
+              <p>Episodes - {show._embedded.episodes.length}</p>
+              <div dangerouslySetInnerHTML={{__html: show.summary}} />
+              <h2>{Math.floor((Math.random() * show._embedded.episodes.length))}</h2>
+            </div>
+            <img style={{maxHeight: 'calc(100vh - 100px)', maxWidth: 'calc(100vw - 1500px)'}} alt='Show' src={show._embedded.episodes[8].image.original} />
           </div>
         }
       </div>
     )
+    console.log(show._embedded.episodes.length);
   }
 }
 
