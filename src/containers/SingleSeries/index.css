@@ -1,12 +1,6 @@
 .main-container {
   display: flex;
 }
-img:not(.App-logo):not(.poster):not(.loader) {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  opacity: 0.8;
-}
 .poster {
   height: calc(100vh - 100px);
   width: auto;
@@ -34,4 +28,42 @@ img:not(.App-logo):not(.poster):not(.loader) {
 .tv-series-container h1 {
   width: 100%;
   font-size: 2.2em;
+}
+.tv-series-container div {
+  text-align: justify;
+  background-color: rgba(34, 34, 34, 0.2);
+  padding: 0 20px;
+  border-radius: 2px;
+}
+.img-container img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+}
+.img-container {
+  position: relative;
+}
+.img-container:hover > * {
+  transition: 0.15s linear all;
+}
+.img-container a {
+  font-size: 1.3em;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.9);
+  position: absolute;
+  margin: 0;
+  bottom: 5px;
+  width: 100%;
+  cursor: pointer;
+  left: 0;
+  text-decoration: none;
+  opacity: 0;
+}
+/* adding label on img:hover */
+.img-container:hover a {
+  opacity: 1;
+}
+.img-container:hover img {
+  opacity: 1;
 }

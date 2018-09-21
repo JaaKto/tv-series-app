@@ -19,44 +19,33 @@ class SingleSeries extends Component {
     const { show } = this.state;
     console.log(show)
 
-
-
     let showEpisodes = () => {
-      const n = [];
-      if (show !== null) {
-        for(let i=0;i<10;i++){
-          n.push(show._embedded.episodes[(Math.floor(Math.random() * show._embedded.episodes.length))].image.original);
+      const randomNumbers = [];
+      while(randomNumbers.length < 10){
+          console.log(show._embedded.episodes.length)
+        let x = Math.floor(Math.random() * show._embedded.episodes.length);
+        if (!randomNumbers.includes(x)) {
+          randomNumbers.push(x);
         }
-        let images = n.map((i, index) => {
-          return <img key={index} alt='Show' src={i} />
-          // return <img style={{maxHeight: 'calc(100vh - 100px)', maxWidth: 'calc(100vw - 1500px)'}} alt='Show' src={i} />
+      }
+      const episodes = [];
+      if (show !== null) {
+        for(let i=0;i<randomNumbers.length;i++){
+          episodes.push(show._embedded.episodes[randomNumbers[i]]);
+        }
+        console.log(episodes)
+        let images = episodes.map((i, index) => {
+          console.log(i.season + ' ' + i.number)
+          console.log(i.number > 9)
+          if (i.number > 9){
+            return <div className='img-container' key={index}><img alt={'S0' + i.season + 'E' + i.number} src={i.image.original} /><a target="_blank" href={i.url}>{'S0'+i.season+'E'+i.number}<br/>{i.name}</a></div>
+          } else if (i.number < 9){
+            return <div className='img-container' key={index}><img alt={'S0' + i.season + 'E0' + i.number} src={i.image.original} /><a target="_blank" href={i.url}>{'S0'+i.season+'E0'+i.number}<br/>{i.name}</a></div>
+          }
         });
         return images;
       }
     }
-
-    // const randomNumbers = [];
-    // while(randomNumbers.length < 10){
-    //     console.log(show._embedded.episodes.length)
-    // 	let x = Math.floor(Math.random() * show._embedded.episodes.length);
-    // 	if (!randomNumbers.includes(x)) {
-    // 		randomNumbers.push(x);
-    // 	}
-    // }
-    //
-    // let showEpisodes = () => {
-    //   const n = [];
-    //   if (show !== null) {
-    //     for(let i=0;i<=randomNumbers.length;i++){
-    //       n.push(show._embedded.episodes[randomNumbers[i]].image.original);
-    //     }
-    //     let images = n.map((i) => {
-    //       return <img alt='Show' src={i} />
-    //       // return <img style={{maxHeight: 'calc(100vh - 100px)', maxWidth: 'calc(100vw - 1500px)'}} alt='Show' src={i} />
-    //     });
-    //     return images;
-    //   }
-    // }
 
     return (
       <div>
@@ -64,9 +53,9 @@ class SingleSeries extends Component {
         {
           show !== null
           &&
-          <div className='main-container' style={{display: 'flex'}} >
-            <img className='poster' alt='Show' src={show.image.original} />
-            <div className='grid-container' >
+          <div className='main-container' >
+            <img className='poster' alt='Poster' src={show.image.original} />
+            <div className='grid-container'>
               <div className='tv-series-container'>
                 <h1>{show.name}</h1>
                 <p>Premiered - {show.premiered}</p>
