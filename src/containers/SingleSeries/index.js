@@ -1,10 +1,41 @@
 import React, { Component } from 'react';
 import Loader from '../../components/Loader';
 import './index.css';
+import Series from '../Series';
 
 class SingleSeries extends Component {
-  state = {
-    show: null
+  constructor() {
+    super();
+    this.state = {
+      show: null
+    };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    // Store match.params in state so we can compare when props change.
+    if (prevState.props !== undefined && nextProps.match.params !== prevState.match.params) {
+      return {
+        id: nextProps.match.params
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // if (prevState.props !== undefined) {
+    //   // At this point, we're in the "commit" phase, so it's safe to load the new data.
+    //   const { id } = this.props.match.params;
+    //     fetch(`http://api.tvmaze.com/shows/${id}?embed=episodes`)
+    //       .then(response => response.json())
+    //       .then(json => this.setState({ show: json }));
+    // } else
+    if (prevProps.match.params !== this.props.match.params) {
+      // At this point, we're in the "commit" phase, so it's safe to load the new data.
+      const { id } = this.props.match.params;
+        fetch(`http://api.tvmaze.com/shows/${id}?embed=episodes`)
+          .then(response => response.json())
+          .then(json => this.setState({ show: json }));
+    }
   }
 
   componentDidMount() {
@@ -12,31 +43,28 @@ class SingleSeries extends Component {
     fetch(`http://api.tvmaze.com/shows/${id}?embed=episodes`)
       .then(response => response.json())
       .then(json => this.setState({ show: json }));
-
   }
 
   render() {
     const { show } = this.state;
-    console.log(show)
 
     let showEpisodes = () => {
       const randomNumbers = [];
       while(randomNumbers.length < 10){
-          console.log(show._embedded.episodes.length)
         let x = Math.floor(Math.random() * show._embedded.episodes.length);
         if (!randomNumbers.includes(x)) {
           randomNumbers.push(x);
         }
       }
       const episodes = [];
-      if (show !== null) {
+      if (show !== null && show._embedded.episodes) {
         for(let i=0;i<randomNumbers.length;i++){
           episodes.push(show._embedded.episodes[randomNumbers[i]]);
         }
-        console.log(episodes)
         let images = episodes.map((i, index) => {
-          console.log(i.season + ' ' + i.number)
-          console.log(i.number > 9)
+          if (i.image === null) {
+            return <p>Sorry, there is no img :(</p>
+          }
           if (i.number > 9){
             return <div className='img-container' key={index}><img alt={'S0' + i.season + 'E' + i.number} src={i.image.original} /><a target="_blank" href={i.url}>{'S0'+i.season+'E'+i.number}<br/>{i.name}</a></div>
           } else if (i.number < 9){
@@ -49,6 +77,7 @@ class SingleSeries extends Component {
 
     return (
       <div>
+      <Series />
         { show === null && <Loader /> }
         {
           show !== null

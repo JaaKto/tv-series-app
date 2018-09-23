@@ -3,11 +3,16 @@ import { Switch, Route } from 'react-router-dom';
 import Series from '../../containers/Series';
 import SingleSeries from '../../containers/SingleSeries';
 
-const Main = props => (
-  <Switch>
-    <Route exact path="/" component={Series} />
-    <Route path='/series/:id' component={SingleSeries} />
-  </Switch>
-);
 
+class Main extends React.Component {
+
+  render() {
+    return (
+      <Switch>
+        <Route exact path="/" component={Series} />
+        <Route path='/series/:id' id='id' component={SingleSeries}/>
+      </Switch>
+    )
+  }
+}
 export default Main;

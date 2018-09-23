@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import SeriesList from '../../components/SeriesList';
 import Loader from '../../components/Loader';
-import Intro from '../../components/Intro';
+import './index.css';
 
 class Series extends Component {
   state = {
@@ -18,15 +18,14 @@ class Series extends Component {
       .then(json => this.setState({ series: json, isFetching: false}));
   }
 
+
   render() {
     const {series, seriesName, isFetching} = this.state;
 
     return (
-      <div>
-      <Intro message="Here you can find all of your most love series"/>
-        <div>
+      <div className='custom-container'>
+        <div className='input-container'>
           <input
-            value={seriesName}
             type="text"
             onChange={this.onSeriesInputChange}/>
         </div>
@@ -44,7 +43,7 @@ class Series extends Component {
           isFetching && <Loader />
         }
         {
-          !isFetching && <SeriesList list={this.state.series}/>
+          !isFetching && <SeriesList seriesName={this.onSeriesInputChange} list={this.state.series} />
         }
       </div>
     )
