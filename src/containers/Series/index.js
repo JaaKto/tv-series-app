@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import SeriesList from '../../components/SeriesList';
 import Loader from '../../components/Loader';
-import './index.css';
+import './index.sass';
 
 class Series extends Component {
   state = {

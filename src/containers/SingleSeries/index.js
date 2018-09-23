@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Loader from '../../components/Loader';
-import './index.css';
+import './index.sass';
 import Series from '../Series';
 
 class SingleSeries extends Component {
@@ -78,7 +77,6 @@ class SingleSeries extends Component {
     return (
       <div>
       <Series />
-        { show === null && <Loader /> }
         {
           show !== null
           &&

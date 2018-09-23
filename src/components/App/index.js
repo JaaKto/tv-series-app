@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Main from '../Main';
 import logo from '../../assets/logo.svg';
-import './App.css';
+import './App.sass';
 import 'whatwg-fetch';
 
 class App extends Component {
