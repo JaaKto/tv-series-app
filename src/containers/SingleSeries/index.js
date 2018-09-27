@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import './index.sass';
 import Series from '../Series';
 
+let carousel;
+let innerCarousel;
+let counter = 0;
+
 class SingleSeries extends Component {
   constructor() {
     super();
@@ -21,19 +25,29 @@ class SingleSeries extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // if (prevState.props !== undefined) {
-    //   // At this point, we're in the "commit" phase, so it's safe to load the new data.
-    //   const { id } = this.props.match.params;
-    //     fetch(`http://api.tvmaze.com/shows/${id}?embed=episodes`)
-    //       .then(response => response.json())
-    //       .then(json => this.setState({ show: json }));
-    // } else
     if (prevProps.match.params !== this.props.match.params) {
       // At this point, we're in the "commit" phase, so it's safe to load the new data.
       const { id } = this.props.match.params;
         fetch(`http://api.tvmaze.com/shows/${id}?embed=episodes`)
           .then(response => response.json())
           .then(json => this.setState({ show: json }));
+    }
+    carousel = document.getElementsByClassName('img-container');
+    innerCarousel = document.querySelector('.inner-carousel');
+    innerCarousel.style.width = (carousel.length * 300)+'px';
+  }
+
+  previous = () => {
+    if (counter > 0) {
+      innerCarousel.style.transform = 'translateX('+(300 - (300 * counter))+'px)';
+      counter--;
+    }
+  }
+
+  next = () => {
+    if (counter < carousel.length - 5) {
+      innerCarousel.style.transform = 'translateX('+(-300 - (300 * counter))+'px)';
+      counter++;
     }
   }
 
@@ -61,12 +75,9 @@ class SingleSeries extends Component {
           episodes.push(show._embedded.episodes[randomNumbers[i]]);
         }
         let images = episodes.map((i, index) => {
-          if (i.image === null) {
-            return <p>Sorry, there is no img :(</p>
-          }
-          if (i.number > 9){
+          if (i.image !== null && i.number > 9){
             return <div className='img-container' key={index}><img alt={'S0' + i.season + 'E' + i.number} src={i.image.original} /><a target="_blank" href={i.url}>{'S0'+i.season+'E'+i.number}<br/>{i.name}</a></div>
-          } else if (i.number < 9){
+          } else if (i.image !== null && i.number <= 9){
             return <div className='img-container' key={index}><img alt={'S0' + i.season + 'E0' + i.number} src={i.image.original} /><a target="_blank" href={i.url}>{'S0'+i.season+'E0'+i.number}<br/>{i.name}</a></div>
           }
         });
@@ -80,17 +91,25 @@ class SingleSeries extends Component {
         {
           show !== null
           &&
-          <div className='main-container' >
-            <img className='poster' alt='Poster' src={show.image.original} />
-            <div className='grid-container'>
-              <div className='tv-series-container'>
-                <h1>{show.name}</h1>
-                <p>Premiered - {show.premiered}</p>
-                <p>Rating - {show.rating.average}</p>
-                <p>Episodes - {show._embedded.episodes.length}</p>
-                <div dangerouslySetInnerHTML={{__html: show.summary}} />
+          <div>
+            <div className='main-container' >
+              <div className='flex-container'>
+                <img className='poster' alt='Poster' src={show.image.original} />
+                <div className='tv-series-container'>
+                  <h1>{show.name}</h1>
+                  <p>Premiered - {show.premiered}</p>
+                  <p>Rating - {show.rating.average}</p>
+                  <p>Episodes - {show._embedded.episodes.length}</p>
+                  <div dangerouslySetInnerHTML={{__html: show.summary}} />
+                </div>
               </div>
-              {showEpisodes()}
+              <div className='carousel-container'>
+                <div className='inner-carousel'>
+                  {showEpisodes()}
+                </div>
+                <button onClick={() => this.previous()}>-</button>
+                <button onClick={() => this.next()}>+</button>
+              </div>
             </div>
           </div>
         }
