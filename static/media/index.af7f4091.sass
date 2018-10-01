@@ -1,0 +1,40 @@
+.custom-container
+  position: absolute
+  top: 0
+  left: 50%
+  transform: translateX(-50%)
+  z-index: 9
+  .input-container
+    display: flex
+    height: 100px
+    ~ p
+      color: lightgray
+      display: inline-block
+      width: 100%
+      padding: 5px 0px
+      margin: 0
+      z-index: 9
+      position: absolute
+      left: 0
+      top: 70px
+    input
+      align-self: center
+      width: 300px
+      font-size: 1.3em
+      padding: 5px 10px
+      background-color: lightgray
+      border-radius: 2px
+      border: none
+      margin: 30px
+      &:focus
+        outline: none
+        background-color: #222
+        color: lightgray
+        transition: background-color 250ms
+
+@media only screen and (max-width: 550px)
+  .custom-container .input-container
+    width: 100vw
+    input
+      width: 100%
+      font-size: 4vw
