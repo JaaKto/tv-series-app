@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Main from '../Main';
-import logo from '../../assets/logo.svg';
 import './App.sass';
 import 'whatwg-fetch';
 
@@ -10,9 +9,11 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <h1 className="App-title"><span>TV</span>Series</h1>
-          <img src={logo} className="App-logo" alt="logo" />
         </header>
         <Main />
+        <div className="caption">
+          <h3>Here you can find all of your most loved series</h3>
+        </div>
       </div>
     );
   }

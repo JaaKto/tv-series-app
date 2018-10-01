@@ -17,15 +17,24 @@
       position: absolute
       left: 0
       top: 70px
-      background-color: #222
     input
       align-self: center
       width: 300px
       font-size: 1.3em
       padding: 5px 10px
-      background-color: #F5F2EB
-      border-radius: 15px
+      background-color: lightgray
+      border-radius: 2px
       border: none
       margin: 30px
       &:focus
         outline: none
+        background-color: #222
+        color: lightgray
+        transition: background-color 250ms
+
+@media only screen and (max-width: 550px)
+  .custom-container .input-container
+    width: 100vw
+    input
+      width: 100%
+      font-size: 4vw

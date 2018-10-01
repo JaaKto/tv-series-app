@@ -26,14 +26,10 @@ class Series extends Component {
       <div className='custom-container'>
         <div className='input-container'>
           <input
+            placeholder="Please enter series name"
             type="text"
             onChange={this.onSeriesInputChange}/>
         </div>
-        {
-          !isFetching && series.length === 0 && seriesName.trim() === ''
-          &&
-          <p>Please enter series name into the input</p>
-        }
         {
           !isFetching && series.length === 0 && seriesName.trim() !== ''
           &&
