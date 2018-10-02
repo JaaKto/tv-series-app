@@ -29,7 +29,7 @@ class SingleSeries extends Component {
     if (prevProps.match.params !== this.props.match.params) {
       // At this point, we're in the "commit" phase, so it's safe to load the new data.
       const { id } = this.props.match.params;
-        fetch(`http://api.tvmaze.com/shows/${id}?embed=episodes`)
+        fetch(`https://api.tvmaze.com/shows/${id}?embed=episodes`)
           .then(response => response.json())
           .then(json => this.setState({ show: json }));
     }
@@ -80,16 +80,13 @@ class SingleSeries extends Component {
 
   componentDidMount() {
     const { id } = this.props.match.params;
-    fetch(`http://api.tvmaze.com/shows/${id}?embed=episodes`)
+    fetch(`https://api.tvmaze.com/shows/${id}?embed=episodes`)
       .then(response => response.json())
       .then(json => this.setState({ show: json }));
   }
 
   render() {
     const { show } = this.state;
-    console.log(show);
-    let width = document.body.clientWidth;
-    console.log(width)
 
     //picking random photos
     let showEpisodes = () => {
